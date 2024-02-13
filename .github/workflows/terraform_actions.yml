@@ -81,5 +81,4 @@ jobs:
         id: apply
         working-directory: ./terraform
         run: |
-          ls
-          terraform apply -auto-approve tfplan
+          terraform apply -auto-approve ../tfplan
