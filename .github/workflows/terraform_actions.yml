@@ -30,7 +30,7 @@ jobs:
       - name: Terraform Init
         id: init
         working-directory: ./terraform
-        run: terraform init
+        run: terraform init -upgrade
 
       - name: Terraform Validate
         id: validate
