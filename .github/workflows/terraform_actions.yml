@@ -80,4 +80,6 @@ jobs:
       - name: Terraform Apply
         id: apply
         working-directory: ./terraform
-        run: terraform apply -auto-approve tfplan
+        run: |
+          ls
+          terraform apply -auto-approve tfplan
