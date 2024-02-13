@@ -13,8 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4.1.1
       - uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: "1.7.3"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4.0.2
@@ -32,7 +30,7 @@ jobs:
       - name: Terraform Init
         id: init
         working-directory: ./terraform
-        run: terraform init -upgrade
+        run: terraform init
 
       - name: Terraform Validate
         id: validate
@@ -53,7 +51,9 @@ jobs:
         uses: actions/upload-artifact@v4.3.1
         with:
           name: terraform-plan
-          path: terraform/tfplan
+          path: |
+            terraform/.terraform
+            terraform/tfplan
 
   terraform_apply:
     needs: terraform_validate
@@ -62,8 +62,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4.1.1
       - uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: "1.7.3"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4.0.2
