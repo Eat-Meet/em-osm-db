@@ -10,12 +10,12 @@ terraform {
     }
   }
 
-  backend "s3" {
-    bucket         = "em-osm-tf-state"
-    key            = "state/terraform.tfstate"
-    region         = "eu-west-2"
-    dynamodb_table = "em-osm-tf-state-lock"
-    encrypt        = true
-  }
+#  backend "s3" {
+#    bucket         = "em-osm-tf-state"
+#    key            = "state/terraform.tfstate"
+#    region         = "eu-west-2"
+#    dynamodb_table = "em-osm-tf-state-lock"
+#    encrypt        = true
+#  }
 }
 

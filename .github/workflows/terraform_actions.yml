@@ -53,6 +53,9 @@ jobs:
           name: terraform-plan
           path: |
             terraform/.terraform
+            terraform/.terraform.lock.hcl
+            terraform/.terraform.tfstate.lock.info
+            terraform/terraform.tfstate
             terraform/tfplan
 
   terraform_apply:
@@ -79,5 +82,4 @@ jobs:
       - name: Terraform Apply
         id: apply
         working-directory: ./terraform
-        run: |
-          terraform apply -auto-approve tfplan
+        run: terraform apply -auto-approve tfplan
