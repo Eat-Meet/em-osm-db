@@ -1,4 +1,4 @@
-name: Terraform Actions
+name: Terraform init actions
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   terraform_validate:
-    name: Terraform Validate
+    name: Terraform validate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
@@ -21,13 +21,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: "eu-west-2"
 
-      - name: Terraform fmt
+      - name: Terraform format
         id: fmt
         working-directory: ./terraform
         run: terraform fmt -check
         continue-on-error: true
 
-      - name: Terraform Init
+      - name: Terraform init
         id: init
         working-directory: ./terraform
         run: terraform init
@@ -37,7 +37,7 @@ jobs:
         working-directory: ./terraform
         run: terraform validate -no-color
 
-      - name: Terraform Plan
+      - name: Terraform plan
         id: plan
         working-directory: ./terraform
         run: terraform plan
@@ -55,7 +55,7 @@ jobs:
 
   terraform_apply:
     needs: [ terraform_validate ]
-    name: Terraform Apply
+    name: Terraform apply
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
