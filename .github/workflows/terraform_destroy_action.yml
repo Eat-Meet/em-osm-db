@@ -1,7 +1,10 @@
 name: Terraform destroy actions
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   terraform_destroy:
