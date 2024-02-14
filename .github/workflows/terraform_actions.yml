@@ -51,15 +51,10 @@ jobs:
         uses: actions/upload-artifact@v4.3.1
         with:
           name: terraform-plan
-          path: |
-            terraform/.terraform
-            terraform/.terraform.lock.hcl
-            terraform/.terraform.tfstate.lock.info
-            terraform/terraform.tfstate
-            terraform/tfplan
+          path: terraform/tfplan
 
   terraform_apply:
-    needs: terraform_validate
+    needs: [ terraform_validate ]
     name: Terraform Apply
     runs-on: ubuntu-latest
     steps:
@@ -72,6 +67,11 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: "eu-west-2"
+
+      - name: Terraform Init
+        id: init
+        working-directory: ./terraform
+        run: terraform init
 
       - name: Download Terraform Plan
         uses: actions/download-artifact@v4.1.2
