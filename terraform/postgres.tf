@@ -30,10 +30,10 @@ resource "terraform_data" "download_osm_data" {
       ./download-osm-ukraine.sh
     EOT
     environment = {
-      DB_NAME     = aws_db_instance.osm_rds.identifier
-      DB_ADDRESS  = aws_db_instance.osm_rds.address
-      DB_USERNAME = aws_db_instance.osm_rds.username
-      DB_PASSWORD = aws_db_instance.osm_rds.password
+      DB_NAME     = nonsensitive(aws_db_instance.osm_rds.identifier)
+      DB_ADDRESS  = nonsensitive(aws_db_instance.osm_rds.address)
+      DB_USERNAME = nonsensitive(aws_db_instance.osm_rds.username)
+      DB_PASSWORD = nonsensitive(aws_db_instance.osm_rds.password)
     }
   }
 }
