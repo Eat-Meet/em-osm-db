@@ -24,10 +24,8 @@ resource "postgresql_extension" "hstore_extension" {
 resource "terraform_data" "download_osm_data" {
   provisioner "local-exec" {
     working_dir = "../database/"
-    command     = <<-EOT
-      "ls"
-      "bash download-osm-ukraine.sh"
-    EOT
+    command     = "./download-osm-ukraine.sh"
+    interpreter = ["/bin/bash", "-c"]
     environment = {
       DB_NAME     = aws_db_instance.osm_rds.identifier
       DB_ADDRESS  = aws_db_instance.osm_rds.address
