@@ -25,9 +25,9 @@ resource "terraform_data" "download_osm_data" {
   provisioner "local-exec" {
     working_dir = "../database/"
     interpreter = ["/bin/bash", "-c"]
-    command     = <<EOT
-      "chmod +x download-osm-ukraine.sh"
-      "./download-osm-ukraine.sh"
+    command     = <<-EOT
+      chmod +x download-osm-ukraine.sh
+      ./download-osm-ukraine.sh
     EOT
     environment = {
       DB_NAME     = aws_db_instance.osm_rds.identifier
