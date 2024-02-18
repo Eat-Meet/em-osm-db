@@ -24,6 +24,7 @@ resource "postgresql_extension" "hstore_extension" {
 resource "terraform_data" "download_osm_data" {
   depends_on = [postgresql_extension.postgis_extension, postgresql_extension.hstore_extension]
   provisioner "local-exec" {
+    when        = create
     working_dir = "../database/"
     interpreter = ["/bin/bash", "-c"]
     command     = <<-EOT
