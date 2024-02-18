@@ -11,5 +11,5 @@ wget https://download.openstreetmap.fr/extracts/europe/ukraine/lviv_oblast-lates
 echo "Download OSM data for Lviv region is completed."
 
 echo "Run OSM Migration."
-sudo osm2pgsql -s -U $DB_USERNAME -l -d $DB_NAME -H $DB_ADDRESS --hstore lviv_oblast-latest.osm.pbf || { echo "OSM Migration failed"; exit 1; }
+sudo osm2pgsql -s -U $DB_USERNAME -W -l -d $DB_NAME -H $DB_ADDRESS --hstore lviv_oblast-latest.osm.pbf || { echo "OSM Migration failed"; exit 1; }
 echo "OSM Migration is completed."
