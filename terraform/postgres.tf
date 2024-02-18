@@ -4,8 +4,8 @@ provider "postgresql" {
   host             = aws_db_instance.osm_rds.address
   username         = aws_db_instance.osm_rds.username
   password         = aws_db_instance.osm_rds.password
+  database         = var.db_name
   port             = 5432
-  database         = "postgres"
   expected_version = "15.5"
   sslmode          = "require"
   connect_timeout  = 15
@@ -30,7 +30,7 @@ resource "terraform_data" "download_osm_data" {
       ./download-osm-ukraine.sh
     EOT
     environment = {
-      DB_NAME     = nonsensitive(aws_db_instance.osm_rds.identifier)
+      DB_NAME     = nonsensitive(var.db_name)
       DB_ADDRESS  = nonsensitive(aws_db_instance.osm_rds.address)
       DB_USERNAME = nonsensitive(aws_db_instance.osm_rds.username)
       PGPASSWORD  = nonsensitive(aws_db_instance.osm_rds.password)
