@@ -7,7 +7,7 @@ provider "postgresql" {
   database         = var.db_name
   port             = 5432
   expected_version = "15.5"
-  sslmode          = "require"
+  sslmode          = "disable"
   connect_timeout  = 15
 }
 
