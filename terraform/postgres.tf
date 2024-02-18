@@ -33,7 +33,7 @@ resource "terraform_data" "download_osm_data" {
       DB_NAME     = nonsensitive(aws_db_instance.osm_rds.identifier)
       DB_ADDRESS  = nonsensitive(aws_db_instance.osm_rds.address)
       DB_USERNAME = nonsensitive(aws_db_instance.osm_rds.username)
-      PGPASS      = nonsensitive(aws_db_instance.osm_rds.password)
+      PGPASSWORD  = nonsensitive(aws_db_instance.osm_rds.password)
     }
   }
 }
