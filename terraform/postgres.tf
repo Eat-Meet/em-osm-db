@@ -7,8 +7,8 @@ provider "postgresql" {
   database         = var.db_name
   port             = 5432
   expected_version = "15.5"
-  sslmode          = "disable"
-  connect_timeout  = 15
+  sslmode          = "require"
+  connect_timeout  = 60000
 }
 
 # -------------- RESOURCES ------------------------------------
@@ -22,6 +22,7 @@ resource "postgresql_extension" "hstore_extension" {
 }
 
 resource "terraform_data" "download_osm_data" {
+  depends_on = [postgresql_extension.postgis_extension, postgresql_extension.hstore_extension]
   provisioner "local-exec" {
     working_dir = "../database/"
     interpreter = ["/bin/bash", "-c"]
