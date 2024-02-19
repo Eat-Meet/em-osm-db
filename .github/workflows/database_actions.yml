@@ -2,7 +2,7 @@ name: Database actions
 
 on:
   workflow_run:
-    workflows: [ Terraform init actions ]
+    workflows: [Terraform init actions]
     types:
       - completed
 
