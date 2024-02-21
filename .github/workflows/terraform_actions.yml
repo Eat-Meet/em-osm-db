@@ -1,4 +1,4 @@
-name: Terraform init actions
+name: Infrastructure init actions
 
 on:
   push:
@@ -84,3 +84,22 @@ jobs:
         id: apply
         working-directory: ./terraform
         run: terraform apply -auto-approve tfplan
+
+  migrate_osm_script:
+    needs: [ terraform_apply ]
+    name: Migrate OSM
+    runs-on: ubuntu-latest
+    env:
+      DB_USERNAME: ${{ vars.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_ADDRESS: ${{ vars.DB_ADDRESS }}
+      DB_NAME: "postgres"
+    steps:
+      - uses: actions/checkout@v4.1.1
+
+      - name: Run OSM scripts
+        working-directory: ./database
+        run: |
+          chmod +x download-osm-ukraine.sh
+          ./download-osm-ukraine.sh
+        shell: bash
