@@ -174,24 +174,24 @@ resource "aws_key_pair" "osm_key_pair" {
 
 # ------------------------ EC2 -------------------------
 
-resource "aws_instance" "osm_instance" {
-  ami           = "ami-0171207a7acd2a570"
-  instance_type = "t2.micro"
-
-  vpc_security_group_ids      = [aws_security_group.osm_db_security_group.id]
-  subnet_id                   = aws_subnet.osm_subnet_a.id
-  key_name                    = aws_key_pair.osm_key_pair.key_name
-  associate_public_ip_address = true
-
-  user_data = templatefile("${path.root}/../database/download-osm-ukraine.tpl", {
-    DB_USERNAME = aws_db_instance.osm_rds.username
-    DB_PASSWORD = aws_db_instance.osm_rds.password
-    DB_ADDRESS  = aws_db_instance.osm_rds.address
-    DB_NAME     = var.db_name
-  })
-
-  tags = {
-    Name    = "OSM EC2 Instance"
-    Creator = "Terraform"
-  }
-}
+#resource "aws_instance" "osm_instance" {
+#  ami           = "ami-0e5f882be1900e43b" # Ubuntu 22.04 LTS
+#  instance_type = "t2.micro"
+#
+#  vpc_security_group_ids      = [aws_security_group.osm_db_security_group.id]
+#  subnet_id                   = aws_subnet.osm_subnet_a.id
+#  key_name                    = aws_key_pair.osm_key_pair.key_name
+#  associate_public_ip_address = true
+#
+#  user_data = templatefile("${path.root}/../database/download-osm-ukraine.tpl", {
+#    DB_USERNAME = aws_db_instance.osm_rds.username
+#    DB_PASSWORD = aws_db_instance.osm_rds.password
+#    DB_ADDRESS  = aws_db_instance.osm_rds.address
+#    DB_NAME     = var.db_name
+#  })
+#
+#  tags = {
+#    Name    = "OSM EC2 Instance"
+#    Creator = "Terraform"
+#  }
+#}
