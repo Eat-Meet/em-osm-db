@@ -3,7 +3,8 @@
 # Exit immediately if a command exits with a non-zero status.
 set -e
 
-sudo yum install -y osm2pgsql wget unzip zip
+sudo yum makecache
+sudo yum -y install osm2pgsql wget unzip zip
 
 echo "Download OSM data for Lviv region."
 wget https://download.openstreetmap.fr/extracts/europe/ukraine/lviv_oblast-latest.osm.pbf
