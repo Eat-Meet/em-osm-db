@@ -90,8 +90,8 @@ jobs:
     name: Migrate OSM
     runs-on: ubuntu-latest
     env:
+      PGPASSWORD: ${{ secrets.DB_PASSWORD }}
       DB_USERNAME: ${{ vars.DB_USERNAME }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       DB_ADDRESS: ${{ vars.DB_ADDRESS }}
       DB_NAME: "postgres"
     steps:
