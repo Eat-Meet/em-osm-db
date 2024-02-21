@@ -8,7 +8,7 @@ provider "aws" {
 
 # -------------- RESOURCES ------------------------------
 
-# -------------- VPC ------------------------------------
+# ----------------- VPC ---------------------------------
 
 resource "aws_vpc" "osm_vpc" {
   cidr_block           = "10.0.0.0/16"
@@ -150,5 +150,40 @@ resource "aws_db_instance" "osm_rds" {
       vpc_security_group_ids,
       tags
     ]
+  }
+}
+
+# ------------------------ Key pair -------------------------
+
+resource "tls_private_key" "rsa_private_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "aws_key_pair" "osm_key_pair" {
+  key_name   = "osm_ec2_key_pair"
+  public_key = tls_private_key.rsa_private_key.public_key_openssh
+}
+
+# ------------------------ EC2 -------------------------
+
+resource "aws_instance" "osm_instance" {
+  ami           = "ami-0171207a7acd2a570"
+  instance_type = "t2.micro"
+
+  vpc_security_group_ids = [aws_security_group.osm_db_security_group.id]
+  subnet_id              = aws_subnet.osm_subnet_a.id
+  key_name               = aws_key_pair.osm_key_pair.key_name
+
+  user_data = templatefile("${path.root}/../database/download-osm-ukraine.tpl", {
+    DB_USERNAME = aws_db_instance.osm_rds.username
+    DB_PASSWORD = aws_db_instance.osm_rds.password
+    DB_ADDRESS  = aws_db_instance.osm_rds.address
+    DB_NAME     = var.db_name
+  })
+
+  tags = {
+    Name    = "OSM EC2 Instance"
+    Creator = "Terraform"
   }
 }
