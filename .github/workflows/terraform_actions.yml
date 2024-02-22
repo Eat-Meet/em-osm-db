@@ -9,7 +9,7 @@ on:
 jobs:
   terraform_validate:
     name: Terraform validate
-    runs-on: ubuntu-latest
+    runs-on: default-custom-runner
     steps:
       - uses: actions/checkout@v4.1.1
       - uses: hashicorp/setup-terraform@v3
