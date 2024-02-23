@@ -125,6 +125,33 @@ resource "aws_route_table_association" "rt_association_b" {
   route_table_id = aws_route_table.osm_rt.id
 }
 
+resource "aws_db_parameter_group" "osm-db-parameter-group" {
+  family      = "postgres15"
+  name        = "osm-db-parameter-group"
+  description = "Parameter group with enlarged keepalive params"
+
+  parameter {
+    name  = "tcp_keepalives_count"
+    value = "60"
+  }
+
+  parameter {
+    name  = "tcp_keepalives_idle"
+    value = "60"
+  }
+
+  parameter {
+    name  = "tcp_keepalives_interval"
+    value = "60"
+  }
+
+  parameter {
+    name  = "statement_timeout"
+    value = "3600000"
+  }
+
+}
+
 # ------------------------ RDS -------------------------
 
 resource "aws_db_instance" "osm_rds" {
@@ -142,6 +169,7 @@ resource "aws_db_instance" "osm_rds" {
 
   vpc_security_group_ids = [aws_security_group.osm_db_security_group.id]
   db_subnet_group_name   = aws_db_subnet_group.osm_db_subnet_group.name
+  parameter_group_name   = aws_db_parameter_group.osm-db-parameter-group.name
 
   publicly_accessible = true
   skip_final_snapshot = true
@@ -159,39 +187,3 @@ resource "aws_db_instance" "osm_rds" {
     ]
   }
 }
-
-# ------------------------ Key pair -------------------------
-
-resource "tls_private_key" "rsa_private_key" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
-
-resource "aws_key_pair" "osm_key_pair" {
-  key_name   = "osm_ec2_key_pair"
-  public_key = tls_private_key.rsa_private_key.public_key_openssh
-}
-
-# ------------------------ EC2 -------------------------
-
-#resource "aws_instance" "osm_instance" {
-#  ami           = "ami-0171207a7acd2a570"
-#  instance_type = "t2.micro"
-#
-#  vpc_security_group_ids      = [aws_security_group.osm_db_security_group.id]
-#  subnet_id                   = aws_subnet.osm_subnet_a.id
-#  key_name                    = aws_key_pair.osm_key_pair.key_name
-#  associate_public_ip_address = true
-#
-#  user_data = templatefile("${path.root}/../database/download-osm-ukraine.tpl", {
-#    DB_USERNAME = aws_db_instance.osm_rds.username
-#    DB_PASSWORD = aws_db_instance.osm_rds.password
-#    DB_ADDRESS  = aws_db_instance.osm_rds.address
-#    DB_NAME     = var.db_name
-#  })
-#
-#  tags = {
-#    Name    = "OSM EC2 Instance"
-#    Creator = "Terraform"
-#  }
-#}
