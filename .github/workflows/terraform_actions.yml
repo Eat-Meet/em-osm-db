@@ -84,34 +84,3 @@ jobs:
         id: apply
         working-directory: ./terraform
         run: terraform apply -auto-approve tfplan
-
-#  terraform_destroy_ec2_osm_migrator:
-#    needs: [ terraform_apply ]
-#    name: Destroy EC2 OSM Migration instance
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4.1.1
-#      - uses: hashicorp/setup-terraform@v3
-#
-#      - name: Configure AWS Credentials
-#        uses: aws-actions/configure-aws-credentials@v4.0.2
-#        with:
-#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-#          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-#          aws-region: "eu-west-2"
-#
-#      - name: Terraform Init
-#        id: init
-#        working-directory: ./terraform
-#        run: terraform init
-#
-#      - name: Terraform Destroy
-#        id: destroy
-#        working-directory: ./terraform
-#        run: terraform destroy --target aws_instance.osm_instance
-#          -var="db_username=${{ vars.DB_USERNAME }}"
-#          -var="db_password=${{ secrets.DB_PASSWORD }}"
-#          -var="db_name=${{ vars.DB_NAME }}"
-#          -var="aws_access_key=${{ secrets.AWS_ACCESS_KEY }}"
-#          -var="aws_secret_key=${{ secrets.AWS_SECRET_KEY }}"
-#          -auto-approve
