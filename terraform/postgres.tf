@@ -45,7 +45,7 @@ resource "postgresql_function" "get_places_nearby" {
 
   name     = "get_places_nearby"
   language = "plpgsql"
-  returns  = "TABLE(way geometry, name text, tags hstore)"
+  returns  = "TABLE(way text, name text, tags hstore)"
 
   arg {
     name = "lon"
@@ -71,7 +71,7 @@ resource "postgresql_function" "get_places_nearby" {
     BEGIN
         RETURN QUERY
         SELECT DISTINCT
-            p.way,
+            ST_AsText(p.way),
             p.name,
             p.tags
         FROM
