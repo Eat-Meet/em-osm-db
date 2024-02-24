@@ -45,7 +45,7 @@ resource "postgresql_function" "get_places_nearby" {
 
   name     = "get_places_nearby"
   language = "plpgsql"
-  returns  = "TABLE(way text, name text, p.amenity, tags hstore)"
+  returns  = "TABLE(way text, name text, amenity text, tags hstore)"
 
   arg {
     name = "lon"
