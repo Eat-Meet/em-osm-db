@@ -9,7 +9,7 @@ on:
 jobs:
   terraform_validate:
     name: Terraform validate
-    runs-on: ubuntu-latest
+    runs-on: runner
     steps:
       - uses: actions/checkout@v4.1.1
       - uses: hashicorp/setup-terraform@v3
@@ -57,7 +57,7 @@ jobs:
   terraform_apply:
     needs: [ terraform_validate ]
     name: Terraform apply
-    runs-on: ubuntu-latest
+    runs-on: runner
     steps:
       - uses: actions/checkout@v4.1.1
       - uses: hashicorp/setup-terraform@v3
