@@ -102,6 +102,8 @@ resource "aws_internet_gateway" "osm_igw" {
 }
 
 resource "aws_route_table" "osm_rt" {
+  depends_on = [aws_internet_gateway.osm_igw]
+
   vpc_id = aws_vpc.osm_vpc.id
 
   route {
