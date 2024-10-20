@@ -1,0 +1,31 @@
+name: Clear database manual action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  clear_database:
+    name: Clear database
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: ${{ vars.DB_NAME }}
+          POSTGRES_USER: ${{ vars.DB_USERNAME }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v4.1.1
+
+      - name: Execute SQL scripts for clear DB
+        working-directory: ./database/sql
+        run: psql -d postgresql://${{ vars.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ vars.DB_HOST }}:5432/${{ vars.DB_NAME }} -f delete_tables.sql
