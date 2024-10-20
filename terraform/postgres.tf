@@ -44,7 +44,7 @@ resource "terraform_data" "download_osm_data_lviv" {
       DB_ADDRESS  = nonsensitive(aws_db_instance.osm_rds.address)
       DB_USERNAME = nonsensitive(aws_db_instance.osm_rds.username)
       PGPASSWORD  = nonsensitive(aws_db_instance.osm_rds.password)
-      SCHEMA_NAME = nonsensitive(postgresql_schema.lviv_schema)
+      SCHEMA_NAME = nonsensitive(postgresql_schema.lviv_schema.name)
     }
   }
 }
@@ -78,7 +78,7 @@ resource "postgresql_function" "get_places_nearby_lviv" {
 
   body = <<-EOT
     BEGIN
-        SET search_path TO ${postgresql_schema.lviv_schema};
+        SET search_path TO ${postgresql_schema.lviv_schema.name};
         RETURN QUERY
         SELECT DISTINCT
             ST_AsText(p.way),
@@ -118,7 +118,7 @@ resource "terraform_data" "download_osm_data_kyiv" {
       DB_ADDRESS  = nonsensitive(aws_db_instance.osm_rds.address)
       DB_USERNAME = nonsensitive(aws_db_instance.osm_rds.username)
       PGPASSWORD  = nonsensitive(aws_db_instance.osm_rds.password)
-      SCHEMA_NAME = nonsensitive(postgresql_schema.kyiv_schema)
+      SCHEMA_NAME = nonsensitive(postgresql_schema.kyiv_schema.name)
     }
   }
 }
@@ -152,7 +152,7 @@ resource "postgresql_function" "get_places_nearby_kyiv" {
 
   body = <<-EOT
     BEGIN
-        SET search_path TO ${postgresql_schema.kyiv_schema};
+        SET search_path TO ${postgresql_schema.kyiv_schema.name};
         RETURN QUERY
         SELECT DISTINCT
             ST_AsText(p.way),
