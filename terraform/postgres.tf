@@ -8,7 +8,7 @@ provider "postgresql" {
   port             = 5432
   expected_version = "15.5"
   sslmode          = "require"
-  connect_timeout  = 60000
+  connect_timeout  = 600
 }
 
 # -------------- RESOURCES ------------------------------------
@@ -21,15 +21,15 @@ resource "postgresql_extension" "hstore_extension" {
   name = "hstore"
 }
 
-resource "terraform_data" "download_osm_data" {
+resource "terraform_data" "download_osm_data_lviv" {
   depends_on = [postgresql_extension.postgis_extension, postgresql_extension.hstore_extension]
   provisioner "local-exec" {
     when        = create
     working_dir = "../database/scripts/"
     interpreter = ["/bin/bash", "-c"]
     command     = <<-EOT
-      chmod +x download-osm-ukraine.sh
-      ./download-osm-ukraine.sh
+      chmod +x download-osm-lviv.sh
+      ./download-osm-lviv.sh
     EOT
     environment = {
       DB_NAME     = nonsensitive(var.db_name)
@@ -40,10 +40,10 @@ resource "terraform_data" "download_osm_data" {
   }
 }
 
-resource "postgresql_function" "get_places_nearby" {
-  depends_on = [terraform_data.download_osm_data]
+resource "postgresql_function" "get_places_nearby_lviv" {
+  depends_on = [terraform_data.download_osm_data_lviv]
 
-  name     = "get_places_nearby"
+  name     = "get_places_nearby_lviv"
   language = "plpgsql"
   returns  = "TABLE(way text, name text, amenity text, tags hstore)"
 

@@ -125,33 +125,6 @@ resource "aws_route_table_association" "rt_association_b" {
   route_table_id = aws_route_table.osm_rt.id
 }
 
-resource "aws_db_parameter_group" "osm-db-parameter-group" {
-  family      = "postgres15"
-  name        = "osm-db-parameter-group"
-  description = "Parameter group with enlarged keepalive params"
-
-  parameter {
-    name  = "tcp_keepalives_count"
-    value = "60"
-  }
-
-  parameter {
-    name  = "tcp_keepalives_idle"
-    value = "60"
-  }
-
-  parameter {
-    name  = "tcp_keepalives_interval"
-    value = "60"
-  }
-
-  parameter {
-    name  = "statement_timeout"
-    value = "3600000"
-  }
-
-}
-
 # ------------------------ RDS -------------------------
 
 resource "aws_db_instance" "osm_rds" {
@@ -169,7 +142,6 @@ resource "aws_db_instance" "osm_rds" {
 
   vpc_security_group_ids = [aws_security_group.osm_db_security_group.id]
   db_subnet_group_name   = aws_db_subnet_group.osm_db_subnet_group.name
-  parameter_group_name   = aws_db_parameter_group.osm-db-parameter-group.name
 
   publicly_accessible = true
   skip_final_snapshot = true
