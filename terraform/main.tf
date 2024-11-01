@@ -11,10 +11,10 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "em-osm-tf-state"
+    bucket         = "em-osm-tf-state-dev"
     key            = "state/terraform.tfstate"
     region         = "eu-west-2"
-    dynamodb_table = "em-osm-tf-state-lock"
+    dynamodb_table = "em-osm-tf-state-lock-dev"
     encrypt        = true
   }
 }
