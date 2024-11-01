@@ -86,9 +86,9 @@ resource "postgresql_function" "get_places_nearby_lviv" {
             p.amenity,
             p.tags
         FROM
-            planet_osm_point p
+            lviv.planet_osm_point p
         JOIN
-            planet_osm_polygon poly ON ST_Contains(poly.way, p.way)
+            lviv.planet_osm_polygon poly ON ST_Contains(poly.way, p.way)
         WHERE
             p.amenity = ANY(amenities)
             AND p.name IS NOT NULL
@@ -160,9 +160,9 @@ resource "postgresql_function" "get_places_nearby_kyiv" {
             p.amenity,
             p.tags
         FROM
-            planet_osm_point p
+            kyiv.planet_osm_point p
         JOIN
-            planet_osm_polygon poly ON ST_Contains(poly.way, p.way)
+            kyiv.planet_osm_polygon poly ON ST_Contains(poly.way, p.way)
         WHERE
             p.amenity = ANY(amenities)
             AND p.name IS NOT NULL
