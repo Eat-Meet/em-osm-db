@@ -78,7 +78,6 @@ resource "postgresql_function" "get_places_nearby_lviv" {
 
   body = <<-EOT
     BEGIN
-        SET search_path TO ${postgresql_schema.lviv_schema.name};
         RETURN QUERY
         SELECT DISTINCT
             ST_AsText(p.way),
@@ -152,7 +151,6 @@ resource "postgresql_function" "get_places_nearby_kyiv" {
 
   body = <<-EOT
     BEGIN
-        SET search_path TO ${postgresql_schema.kyiv_schema.name};
         RETURN QUERY
         SELECT DISTINCT
             ST_AsText(p.way),
