@@ -133,7 +133,7 @@ resource "aws_db_instance" "osm_rds" {
   identifier = "osm-db"
 
   engine            = "postgres"
-  engine_version    = "15.5"
+  engine_version    = "15.7"
   instance_class    = "db.t3.micro"
   allocated_storage = 20
   storage_type      = "gp2"
@@ -155,6 +155,7 @@ resource "aws_db_instance" "osm_rds" {
 
   lifecycle {
     ignore_changes = [
+      engine_version,
       db_subnet_group_name,
       vpc_security_group_ids,
       tags
