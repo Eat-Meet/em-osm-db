@@ -59,17 +59,17 @@ resource "postgresql_function" "get_places_nearby_lviv" {
 
   arg {
     name = "lon"
-    type = "float"
+    type = "real"
   }
 
   arg {
     name = "lat"
-    type = "float"
+    type = "real"
   }
 
   arg {
     name = "distance"
-    type = "int"
+    type = "integer"
   }
 
   arg {
@@ -136,17 +136,17 @@ resource "postgresql_function" "get_places_nearby_kyiv" {
 
   arg {
     name = "lon"
-    type = "float"
+    type = "real"
   }
 
   arg {
     name = "lat"
-    type = "float"
+    type = "real"
   }
 
   arg {
     name = "distance"
-    type = "int"
+    type = "integer"
   }
 
   arg {
