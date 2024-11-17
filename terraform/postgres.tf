@@ -74,7 +74,7 @@ resource "postgresql_function" "get_places_nearby_lviv" {
 
   arg {
     name = "amenities"
-    type = "text[]"
+    type = "character varying[]"
   }
 
   body = <<-EOT
@@ -151,7 +151,7 @@ resource "postgresql_function" "get_places_nearby_kyiv" {
 
   arg {
     name = "amenities"
-    type = "text[]"
+    type = "character varying[]"
   }
 
   body = <<-EOT
