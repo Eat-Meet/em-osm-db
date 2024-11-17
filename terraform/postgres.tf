@@ -53,6 +53,7 @@ resource "postgresql_function" "get_places_nearby_lviv" {
   depends_on = [terraform_data.download_osm_data_lviv]
 
   name     = "get_places_nearby_lviv"
+  schema   = postgresql_schema.lviv_schema.name
   language = "plpgsql"
   returns  = "TABLE(way text, name text, amenity text, tags hstore)"
 
@@ -103,7 +104,10 @@ resource "postgresql_function" "get_places_nearby_lviv" {
 }
 
 resource "terraform_data" "download_osm_data_kyiv" {
-  depends_on = [postgresql_schema.kyiv_schema, postgresql_extension.postgis_extension, postgresql_extension.hstore_extension, postgresql_function.get_places_nearby_lviv]
+  depends_on = [
+    postgresql_schema.kyiv_schema, postgresql_extension.postgis_extension, postgresql_extension.hstore_extension,
+    postgresql_function.get_places_nearby_lviv
+  ]
   provisioner "local-exec" {
     when        = create
     working_dir = "../database/scripts/"
@@ -126,6 +130,7 @@ resource "postgresql_function" "get_places_nearby_kyiv" {
   depends_on = [terraform_data.download_osm_data_kyiv]
 
   name     = "get_places_nearby_kyiv"
+  schema   = postgresql_schema.kyiv_schema.name
   language = "plpgsql"
   returns  = "TABLE(way text, name text, amenity text, tags hstore)"
 
