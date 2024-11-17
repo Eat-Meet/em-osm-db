@@ -26,9 +26,10 @@ jobs:
       - name: Terraform Destroy
         id: destroy
         working-directory: ./terraform
-        run: terraform destroy
+        run: terraform destroy -lock=false
           -var="db_username=${{ vars.DB_USERNAME }}"
           -var="db_password=${{ secrets.DB_PASSWORD }}"
+          -var="db_name=${{ vars.DB_NAME }}"
           -var="aws_access_key=${{ secrets.AWS_ACCESS_KEY }}"
           -var="aws_secret_key=${{ secrets.AWS_SECRET_KEY }}"
           -auto-approve
