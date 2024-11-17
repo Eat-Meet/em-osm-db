@@ -6,7 +6,7 @@ provider "postgresql" {
   password         = aws_db_instance.osm_rds.password
   database         = var.db_name
   port             = 5432
-  expected_version = "15.5"
+  expected_version = "15.7"
   sslmode          = "require"
   connect_timeout  = 600
 }
